@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   adsFOV: 45
   defaultFOV: 60
-  adsOffset: {x: -0.13, y: 0.035, z: -0.01}
+  adsOffset: {x: -0.14, y: 0.035, z: -0.01}
   transitionSpeed: 10
   _camera: {fileID: 330585545}
 --- !u!1 &330585543
@@ -533,14 +533,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e20a0fc7eb32a64aa15ec99542545f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 4
-  rotationAngleLimit: 65
-  rotationSpeed: 3
-  gravityMultiplier: 2
-  checkSphere: {fileID: 1112833142}
-  radius: 0.5
-  groundedOffset: 0.14
-  isGrounded: 0
+  MovementSpeed: 4
+  RotationAngleLimit: 65
+  RotationSpeed: 3
+  GravityMultiplier: 2
+  SphereTransform: {fileID: 1112833142}
+  SphereRadius: 0.5
+  GroundedOffset: 0.14
+  IsGrounded: 0
 --- !u!143 &642985055
 CharacterController:
   m_ObjectHideFlags: 0
@@ -582,38 +582,6 @@ Transform:
   - {fileID: 330585546}
   - {fileID: 1112833142}
   - {fileID: 2146382561}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &716149096
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 716149097}
-  m_Layer: 0
-  m_Name: Utilities
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &716149097
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 716149096}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1796252136}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &813352191
@@ -754,7 +722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1112833142}
   m_Layer: 0
-  m_Name: Sphere Check
+  m_Name: Sphere Transform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -902,12 +870,44 @@ Transform:
   m_GameObject: {fileID: 1517847688}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13, y: -0.09, z: 0.32}
+  m_LocalPosition: {x: 0.14, y: -0.09, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 165022868}
   m_Father: {fileID: 330585546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1766016696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766016697}
+  m_Layer: 0
+  m_Name: Environment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1766016697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766016696}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1794419054}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1794419050
 GameObject:
@@ -1010,64 +1010,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794419050}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 30, y: 1, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1766016697}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1796252135
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1796252136}
-  - component: {fileID: 1796252137}
-  m_Layer: 0
-  m_Name: Pool Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1796252136
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1796252135}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 716149097}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1796252137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1796252135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0428a39a62ff7d48b213bb86a7be429, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolList:
-  - tag: Bullet
-    prefab: {fileID: 2318496061431186522, guid: 3e7bc5aebbcabbf49aaa276e395a76d0, type: 3}
-    size: 30
-  - tag: Bullet Impact
-    prefab: {fileID: 8016328323731904756, guid: 77284beece2e3ae47b0313b094058ef6, type: 3}
-    size: 30
 --- !u!1 &2146382560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,56 +1062,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a792ea21a6a8344bd922fe0b20c2d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springsList:
-  - springID: Recoiling
-    positionSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
+  SpringsList:
+  - SpringID: Recoiling
+    PositionSpring:
+      Stiffness: 200
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    rotationSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
+    RotationSpring:
+      Stiffness: 100
+      Damping: 0.4
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    includeRotation: 1
-  - springID: Bobbing
-    positionSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
+    IncludeRotation: 1
+  - SpringID: Bobbing
+    PositionSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    rotationSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
+    RotationSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    includeRotation: 1
-  - springID: Swaying
-    positionSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
+    IncludeRotation: 1
+  - SpringID: Breathing
+    PositionSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    rotationSpring:
-      stiffness: 100
-      damping: 1
-      weight: 1
+    RotationSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    includeRotation: 0
-  - springID: Breathing
-    positionSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
+    IncludeRotation: 0
+  - SpringID: Swaying
+    PositionSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    rotationSpring:
-      stiffness: 100
-      damping: 15
-      weight: 1
+    RotationSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
       Target: {x: 0, y: 0, z: 0}
-    includeRotation: 0
-  targetTransform: {fileID: 1517847689}
+    IncludeRotation: 0
+  - SpringID: Sprinting
+    PositionSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
+      Target: {x: 0, y: 0, z: 0}
+    RotationSpring:
+      Stiffness: 100
+      Damping: 0.5
+      Weight: 1
+      Target: {x: 0, y: 0, z: 0}
+    IncludeRotation: 1
+  TargetTransform: {fileID: 1517847689}
 --- !u!114 &2146382563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1175,22 +1136,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89fd9490a72be6f49bad00776c6f3baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bobSettings:
-    xAmplitude: 0.01
-    yAmplitude: 0.01
-    frequency: 6
-  recoilSettings:
-    kickback: 0.04
-    xRotation: 20
-    yRotation: 2
-  breathSettings:
-    xAmplitude: 0.01
-    yAmplitude: 0.005
-    xFrequency: 0.1
-    yFrequency: 0.75
-  swaySettings:
+  RecoilMotionSettings:
+    Kickback: 2
+    XRotation: 30
+  BobMotionSettings:
+    XAmplitude: 0.01
+    YAmplitude: 0.02
+    TiltAmount: 3
+    Frequency: 8
+  BreathMotionSettings:
+    XAmplitude: 0.01
+    YAmplitude: 0.005
+    XFrequency: 0.1
+    YFrequency: 1
+  SwayMotionSettings:
     amount: 0.01
     maximum: 0.1
+  SprintMotionSettings:
+    SprintRotation: {x: 0, y: 0, z: 10}
+    SprintPosition: {x: -0.05, y: -0.03, z: -0.05}
 --- !u!4 &12967897110104619
 Transform:
   m_ObjectHideFlags: 0
@@ -5611,7 +5575,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 813352194}
   - {fileID: 832575519}
+  - {fileID: 1766016697}
   - {fileID: 642985056}
   - {fileID: 1390299631}
-  - {fileID: 716149097}
-  - {fileID: 1794419054}
