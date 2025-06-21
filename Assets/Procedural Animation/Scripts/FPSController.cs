@@ -8,6 +8,9 @@ public class FPSController : MonoBehaviour
     [Tooltip("Normal walking speed of the player.")]
     public float MovementSpeed = 4.0f;
 
+    [Tooltip("Walking speed of the player when sprinting.")]
+    public float SprintingSpeed = 8f;
+
     [Tooltip("How far the player can look up or down.")]
     public float RotationAngleLimit = 65.0f;
 
@@ -47,6 +50,12 @@ public class FPSController : MonoBehaviour
     // tracks the player's current vertical velocity (used for gravity and jumping)
     private Vector3 _verticalVelocity;
 
+    // check if the player was moved forward
+    private bool _movedForward;
+    private bool isMoving => IsMovingForward();
+
+    private float _currentSpeed; // the current speed of the player
+
     private void Awake()
     {
         _characterController ??= GetComponent<CharacterController>();
@@ -58,6 +67,9 @@ public class FPSController : MonoBehaviour
         // hide the cursor at the start
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // set the current speed value to movement speed by default
+        _currentSpeed = MovementSpeed;
     }
 
     private void Update()
@@ -71,8 +83,19 @@ public class FPSController : MonoBehaviour
 
     private void HandleMovement()
     {
+        // Cache the result to avoid multiple calls and ensure consistent behavior
+        bool movingForward = IsMovingForward();
+
+        // Only update the current speed when the movement direction state changes
+        if (_movedForward != movingForward)
+        {
+            _movedForward = movingForward;
+            _currentSpeed = movingForward ? SprintingSpeed : MovementSpeed;
+            Debug.Log(_currentSpeed);
+        }
+
         // normalize the input to avoid faster movement when moving diagonally
-        Vector3 movementInput = GetMovementInput().normalized * MovementSpeed;
+        Vector3 movementInput = GetMovementInput().normalized * _currentSpeed;
 
         // only move when theres a valid input
         if (movementInput.sqrMagnitude >= 0.0001f)

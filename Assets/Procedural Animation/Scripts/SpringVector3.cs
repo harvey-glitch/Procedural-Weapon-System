@@ -37,7 +37,7 @@ public class SpringVector3
     }
 
     // method for checking if the spring is already at rest (settled)
-    public bool IsAtRest(float threshold = 0.001f, float velocityThreshold = 0.01f)
+    public bool IsAtRest(float threshold = 0.0001f, float velocityThreshold = 0.001f)
     {
         return (Target - Value).sqrMagnitude < threshold * threshold &&
                Velocity.sqrMagnitude < velocityThreshold * velocityThreshold;

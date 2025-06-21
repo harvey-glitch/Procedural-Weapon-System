@@ -5,39 +5,65 @@ using UnityEngine;
 [System.Serializable]
 public class RecoilSettings
 {
+    [Tooltip("Backward vector applied to the weapon when firing")]
     public float Kickback = 2f;
+
+    [Tooltip("Upward rotation applied to the weapon when firing")]
     public float XRotation = 30f;
 }
 
 [System.Serializable]
 public class BobSettings
 {
+    [Tooltip("How strong the horizontal oscillation is")]
     public float XAmplitude = 0.01f;
+
+    [Tooltip("How strong the vertical oscillation is")]
     public float YAmplitude = 0.02f;
+
+    [Tooltip("The amount the tilting when oscillating")]
     public float TiltAmount = 3f;
+
+    [Tooltip("How fast the oscillation moves")]
     public float Frequency = 8f;
+
+    [Tooltip("Multiplier to scale the overall oscillation")]
+    public float Multiplier = 2f;
 }
 
 [System.Serializable]
 public class BreathSettings
 {
+    [Tooltip("How strong the horizontal oscillation is")]
     public float XAmplitude = 0.01f;
+
+    [Tooltip("How strong the vertical oscillation is")]
     public float YAmplitude = 0.005f;
+
+    [Tooltip("How fast the horizontal oscillation moves")]
     public float XFrequency = 0.1f;
+
+    [Tooltip("How fast the vertical oscillation moves")]
     public float YFrequency = 0.75f;
 }
 
 [System.Serializable]
 public class SwaySettings
 {
+    [Tooltip("How much sway is applied based on mouse input")]
     public float amount = 0.01f;
+
+    [Tooltip("The maximum limit the sway can reach.")]
     public float maximum = 0.1f;
 }
 
 [System.Serializable]
 public class SprintSettings
 {
+    [Tooltip("The rotation of the weapon when sprinting")]
     public Vector3 SprintRotation;
+
+    [Tooltip("The position of the weapon when sprinting")]
     public Vector3 SprintPosition;
 }
 #endregion
@@ -72,8 +98,13 @@ public class SpringManager : MonoBehaviour
     public SwaySettings SwayMotionSettings;
     public SprintSettings SprintMotionSettings;
 
+    // reference to the fps controller script
     private FPSController _fpsController;
+
+    // timer used to calculate the bobbing effect while moving
     private float bobTimer;
+
+    // timer used to calculate the breathing effect when not moving
     private float breathTimer;
 
     private void Awake()
@@ -95,9 +126,11 @@ public class SpringManager : MonoBehaviour
 
     private void Update()
     {
+        bool isMoving = GetMoveInput().sqrMagnitude >= 0.0001f;
+
         AddRecoil();
-        AddBob();
-        AddBreath();
+        AddBob(isMoving);
+        AddBreath(isMoving);
         AddSway();
         AddSprint();
     }
@@ -119,22 +152,25 @@ public class SpringManager : MonoBehaviour
         }
     }
 
-    public void AddBob()
+    public void AddBob(bool isMoving)
     {
-        // advance the bob timer if theres an key input, reset if none
-        bobTimer = GetMoveInput().sqrMagnitude >= 0.0001f ? bobTimer += Time.deltaTime : 0f;
+        // advance or reset the bob timer based on is moving variable
+        bobTimer = isMoving ? bobTimer += Time.deltaTime : 0f;
 
-        MotionOffset bobResult = GetBobOffset(bobTimer, BobMotionSettings);
+        // adjust bob strength based on movement direction
+        float multiplier = _fpsController.IsMovingForward() ? BobMotionSettings.Multiplier : 1f;
+
+        MotionOffset bobResult = GetBobOffset(bobTimer, multiplier, BobMotionSettings);
 
         // call the method for adding constant / continues force in the spring manager
         SpringSystem.instance.AddConstantForce(
             "Bobbing", bobResult.Position, bobResult.Rotation);
     }
 
-    public void AddBreath()
+    public void AddBreath(bool isMoving)
     {
-        // advance the breath timer if theres no key input detected, reset if theres one
-        breathTimer = GetMoveInput().sqrMagnitude < 0.0001f ? breathTimer += Time.deltaTime : 0f;
+        // advance or reset the breath timer based on is not moving variable
+        breathTimer = isMoving ? 0f : breathTimer += Time.deltaTime;
 
         MotionOffset breathResult = GetBreathOffset(breathTimer, BreathMotionSettings);
 
@@ -174,17 +210,17 @@ public class SpringManager : MonoBehaviour
         return new MotionOffset(recoilPosition, recoilRotation);
     }
 
-    private MotionOffset GetBobOffset(float time, BobSettings settings)
+    private MotionOffset GetBobOffset(float time, float multiplier, BobSettings settings)
     {
         // create a side to side and a downward movement for x and y position
         Vector3 bobPosition = new Vector3(
-            Mathf.Sin(time * settings.Frequency) * settings.XAmplitude,
-            -Mathf.Abs(Mathf.Sin(time * settings.Frequency)) * settings.YAmplitude * 0.5f,
+            Mathf.Sin(time * settings.Frequency) * settings.XAmplitude * multiplier,
+            -Mathf.Abs(Mathf.Sin(time * settings.Frequency)) * settings.YAmplitude * multiplier,
             0f);
 
         // create a side to side movement for z axis rotation
         Vector3 bobRotation = new Vector3(
-            0f, 0f, Mathf.Sin(time * settings.Frequency * 2f) * -settings.TiltAmount);
+            0f, 0f, Mathf.Sin(time * settings.Frequency * 2f) * -settings.TiltAmount * multiplier);
 
         return new MotionOffset(bobPosition, bobRotation);
     }
