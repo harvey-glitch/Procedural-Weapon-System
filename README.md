@@ -1,7 +1,5 @@
 # Procedural Weapon Animation System  
-**Animate your weapon with ease!**
-
-The **Procedural Weapon Animation System** is a lightweight and easy-to-use Unity template for animating weapons using procedural motion. It uses a *physics-based spring system* to simulate smooth, realistic weapon movement—no need for keyframe animations!
+The **Procedural Weapon Animation System** Is a plug-and-play weapon animation system in Unity using physics-based spring mechanics to create dynamic, natural weapon motion without relying on pre-made and traditional keyframe animations.
 
 ---
 
@@ -17,3 +15,10 @@ The **Procedural Weapon Animation System** is a lightweight and easy-to-use Unit
 1. Create a new `GameObject` in your Unity scene.
 2. Attach the `SpringSystem` and `SpringManager` scripts to the GameObject.
 3. In the **Inspector**, assign the **Weapon Root** (the weapon’s `Transform`) to the Spring System.
+
+---
+
+## Folder Structure
+To view the code, please navigate to:
+
+Assets/Procedural Animations/Scripts
