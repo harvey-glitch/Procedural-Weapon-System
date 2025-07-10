@@ -9,23 +9,26 @@ public class InputManager : MonoBehaviour
 
     [Header("Mobile")]
     [Tooltip("Reference to the virtual joystick for movement")]
-    public VirtualJoystick Joystick;
+    public VirtualJoystick joystickInput;
 
     [Tooltip("Reference to the virtual touch zone for rotation")]
-    public VirtualTouchZone TouchZone;
+    public VirtualTouchZone touchZoneInput;
 
     public Canvas MobileInputCanvas;
+
     [Header("Standalone")]
     [Tooltip("Reference to the standalone input")]
-    public PlayerInput StandaloneInput;
+    public PlayerInput standaloneInput;
 
     // public accessors if other scripts need them
     public Vector2 MoveInput => _moveInput;
     public Vector2 LookInput => _lookInput;
+    public bool AttackInput => _attackInput;
 
     // vectors to store inputs
     private Vector2 _moveInput;
     private Vector2 _lookInput;
+    private bool _attackInput;
 
     void Awake()
     {
@@ -54,17 +57,22 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         if (Mode == InputMode.Mobile)
-        {
-            // read input from mobile controls (joystick and touch)
-            _moveInput = Joystick.MoveInput;
-            _lookInput = TouchZone.LookInput;
-        }
+            UseMobileInputs();
+
         else
-        {
-            // read input from new input system (keyboard and mouse)
-            _moveInput = StandaloneInput.actions["Move"].ReadValue<Vector2>();
-            _lookInput = StandaloneInput.actions["Look"].ReadValue<Vector2>();
-            _lookInput *= Time.deltaTime;
-        }
+            UseStandaloneInputs();
+    }
+
+    private void UseMobileInputs()
+    {
+        _moveInput = joystickInput.MoveInput;
+        _lookInput = touchZoneInput.LookInput;
+    }
+
+    private void UseStandaloneInputs()
+    {
+        _moveInput = standaloneInput.actions["Move"].ReadValue<Vector2>();
+        _lookInput = standaloneInput.actions["Look"].ReadValue<Vector2>() * Time.deltaTime;
+        _attackInput = standaloneInput.actions["Attack"].IsPressed();
     }
 }

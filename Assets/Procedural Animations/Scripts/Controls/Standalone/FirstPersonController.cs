@@ -155,6 +155,11 @@ public class FirstPersonController : MonoBehaviour
         return _inputManager.MoveInput.sqrMagnitude >= 0.001f && forwardAngle > 0.86f;
     }
 
+    public bool IsMoving()
+    {
+        return _inputManager.MoveInput.sqrMagnitude >= 0.0001f;
+    }
+
     #region For Debugging
     private void OnDrawGizmos()
     {
