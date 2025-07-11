@@ -75,17 +75,12 @@ public class SpringSystem : MonoBehaviour
         Vector3 totalPosition = Vector3.zero;
         Vector3 totalRotation = Vector3.zero;
 
-        bool isAnyEffectActive = false;
         float elapsedTime = Time.deltaTime;
 
         foreach (var spring in springsList)
         {
-            if (!spring.PositionSpring.IsAtRest())
-            {
-                spring.PositionSpring.Update(spring.PositionSpring.target, elapsedTime);
-                totalPosition += spring.PositionSpring.value * spring.PositionSpring.weight;
-                isAnyEffectActive = true;
-            }
+            spring.PositionSpring.Update(spring.PositionSpring.target, elapsedTime);
+            totalPosition += spring.PositionSpring.value * spring.PositionSpring.weight;
 
             // only apply rotation for springs with includeRotation flag set to true
             if (spring.IncludeRotation)
@@ -95,7 +90,7 @@ public class SpringSystem : MonoBehaviour
             }
         }
 
-        if (targetTransform != null && isAnyEffectActive)
+        if (targetTransform != null)
         {
             // apply the total positions and rotation on the target transform
             targetTransform.localPosition = _originalPosition + totalPosition;

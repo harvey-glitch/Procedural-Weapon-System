@@ -4,16 +4,16 @@ public class WeaponIdle : MotionOffset
 {
     [Header("Variables")]
     [Space(2), Tooltip("How fast the horizontal motion is")]
-    public float xFrequency;
+    public float xFrequency = 0.1f;
 
     [Space(2), Tooltip("Side-to-side strength of the motion")]
-    public float xAmplitude;
+    public float xAmplitude = 0.01f;
 
     [Space(2), Tooltip("How fast the vertical motion is")]
-    public float yFrequency;
+    public float yFrequency = 1f;
 
     [Space(2), Tooltip("Up-and-down strength of the motion")]
-    public float yAmplitude;
+    public float yAmplitude = 0.005f;
 
     private float _xTime;
     private float _yTime;

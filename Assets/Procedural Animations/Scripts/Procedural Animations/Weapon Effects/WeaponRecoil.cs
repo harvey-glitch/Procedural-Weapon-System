@@ -12,9 +12,6 @@ public class WeaponRecoil : MotionOffset
     [Space(2), Tooltip("How frequently the motion event can occur")]
     public float firerate;
 
-    [Space(2), Tooltip("Rotation to apply when the motion is triggered")]
-    public Vector3 rotation;
-
     private bool _isFiring;
     private float _nextFireTime;
 
@@ -26,7 +23,7 @@ public class WeaponRecoil : MotionOffset
 
     public override Vector3 GetRotationOffset()
     {
-        return rotation;
+        return Vector3.zero;
     }
 
     public override void CustomMotionHandler()
