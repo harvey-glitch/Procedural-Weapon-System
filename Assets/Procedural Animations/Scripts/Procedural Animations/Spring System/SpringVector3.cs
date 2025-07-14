@@ -35,7 +35,7 @@ public class SpringVector3
         velocity += force;
     }
 
-    public bool IsAtRest(float threshold = 0.0001f, float velocityThreshold = 0.001f)
+    public bool IsAtRest(float threshold = 0.001f, float velocityThreshold = 0.01f)
     {
         return (target - value).sqrMagnitude < threshold * threshold &&
                velocity.sqrMagnitude < velocityThreshold * velocityThreshold;

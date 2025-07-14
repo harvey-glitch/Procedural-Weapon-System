@@ -18,20 +18,17 @@ public class WeaponIdle : MotionOffset
     private float _xTime;
     private float _yTime;
 
-    public override Vector3 GetPositionOffset()
+    public override SpringTransform GetOffset()
     {
-        float x = (Mathf.PerlinNoise(_xTime, 0.5f) * 2f - 1f) * xAmplitude;
-        float y = Mathf.Sin(_yTime + Mathf.PI / 2f) * yAmplitude;
+        float xPos = (Mathf.PerlinNoise(_xTime, 0.5f) * 2f - 1f) * xAmplitude;
+        float yPos = Mathf.Sin(_yTime + Mathf.PI / 2f) * yAmplitude;
 
-        return new Vector3(x, y, 0f);
+        return new SpringTransform(
+            new Vector3(xPos, yPos, 0f),
+            Vector3.zero);
     }
 
-    public override Vector3 GetRotationOffset()
-    {
-        return Vector3.zero;
-    }
-
-    public override void CustomMotionHandler()
+    public override void UpdateOffset()
     {
         if (!player.IsMoving())
         {
@@ -44,6 +41,7 @@ public class WeaponIdle : MotionOffset
             _yTime = 0f;
         }
 
-        SpringSystem.instance.AddConstantForce("Idle", GetPositionOffset(), GetRotationOffset());
+        SpringTransform offset = GetOffset();
+        SpringSystem.instance.AddConstantForce("Idle", offset.position, offset.rotation);
     }
 }

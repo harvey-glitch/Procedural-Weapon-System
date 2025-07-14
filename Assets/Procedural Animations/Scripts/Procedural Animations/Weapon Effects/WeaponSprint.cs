@@ -9,25 +9,22 @@ public class WeaponSprint : MotionOffset
     [Space(2), Tooltip("Rotation of the weapon when sprinting")]
     public Vector3 rotation;
 
-    public override Vector3 GetPositionOffset()
+    public override SpringTransform GetOffset()
     {
-        return position;
+        return new SpringTransform(
+            position,
+            rotation);
     }
-
-    public override Vector3 GetRotationOffset()
-    {
-        return rotation;
-    }
-
-    public override void CustomMotionHandler()
+    public override void UpdateOffset()
     {
         Vector3 pos = Vector3.zero;
         Vector3 rot = Vector3.zero;
 
         if (player.IsMovingForward())
         {
-            pos = GetPositionOffset();
-            rot = GetRotationOffset();
+            SpringTransform offset = GetOffset();
+            pos = offset.position;
+            rot = offset.rotation;
         }
 
         SpringSystem.instance.AddConstantForce("Sprint", pos, rot);

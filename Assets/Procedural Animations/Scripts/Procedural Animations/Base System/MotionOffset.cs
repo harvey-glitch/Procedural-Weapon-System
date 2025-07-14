@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class MotionOffset : MonoBehaviour
 {
@@ -7,11 +8,17 @@ public abstract class MotionOffset : MonoBehaviour
 
     [HideInInspector]
     public InputManager input;
+    public struct SpringTransform
+    {
+        public Vector3 position;
+        public Vector3 rotation;
 
-    // read only variable for easy access
-    public Vector3 positionOffset => GetPositionOffset();
-    public Vector3 rotationOffset => GetRotationOffset();
-
+        public SpringTransform(Vector3 position, Vector3 rotation)
+        {
+            this.position = position;
+            this.rotation = rotation;
+        }
+    }
 
     private void Awake()
     {
@@ -20,10 +27,7 @@ public abstract class MotionOffset : MonoBehaviour
     }
 
     // abstract method to be implemented by deriving class
+    public abstract SpringTransform GetOffset();
 
-    public abstract Vector3 GetPositionOffset();
-
-    public abstract Vector3 GetRotationOffset();
-
-    public abstract void CustomMotionHandler();
+    public abstract void UpdateOffset();
 }

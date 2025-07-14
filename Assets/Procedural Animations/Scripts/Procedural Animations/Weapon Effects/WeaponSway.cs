@@ -9,22 +9,18 @@ public class WeaponSway : MotionOffset
     [Space(2), Tooltip("Maximum limit this motion can reach")]
     public float maxLimit = 0.1f;
 
-    public override Vector3 GetPositionOffset()
+    public override SpringTransform GetOffset()
     {
-        Vector3 position = new Vector3(
-            -input.LookInput.x, -input.LookInput.y, 0f) * sensitivity;
+        Vector3 pos = new Vector3(-input.LookInput.x, -input.LookInput.y, 0f) * sensitivity;
 
-        // return a clamped vector
-        return Vector3.ClampMagnitude(position, maxLimit);
+        return new SpringTransform(
+            Vector3.ClampMagnitude(pos, maxLimit),
+            Vector3.zero);
     }
 
-    public override Vector3 GetRotationOffset()
+    public override void UpdateOffset()
     {
-        return Vector3.zero;
-    }
-
-    public override void CustomMotionHandler()
-    {
-        SpringSystem.instance.AddConstantForce("Sway", GetPositionOffset(), GetRotationOffset());
+        SpringTransform offset = GetOffset();
+        SpringSystem.instance.AddConstantForce("Sway", offset.position, offset.rotation);
     }
 }

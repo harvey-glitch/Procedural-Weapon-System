@@ -75,4 +75,9 @@ public class InputManager : MonoBehaviour
         _lookInput = standaloneInput.actions["Look"].ReadValue<Vector2>() * Time.deltaTime;
         _attackInput = standaloneInput.actions["Attack"].IsPressed();
     }
+
+    public void SetAttackState(bool newState)
+    {
+        _attackInput = newState;
+    }
 }

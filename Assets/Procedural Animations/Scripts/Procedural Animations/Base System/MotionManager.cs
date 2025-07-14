@@ -12,7 +12,7 @@ public class MotionManager: MonoBehaviour
         {
             if (motion == null) continue;
 
-            motion.CustomMotionHandler();
+            motion.UpdateOffset();
         }
     }
 }

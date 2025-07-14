@@ -36,6 +36,9 @@ public class FirstPersonController : MonoBehaviour
     [Tooltip("Shows if the player is touching the ground.")]
     public bool IsGrounded;
 
+    // stores the current movement direction of the player
+    [HideInInspector] public Vector3 moveVector;
+
     // reference to the input manager
     private InputManager _inputManager;
 
@@ -44,9 +47,6 @@ public class FirstPersonController : MonoBehaviour
 
     // reference to the main camera for handling rotations
     private Camera _camera;
-
-    // stores the current movement direction of the player
-    private Vector3 moveVector;
 
     // stores the current vertical and horizontal angles for rotation
     private float _pitch, _yaw;
@@ -151,8 +151,8 @@ public class FirstPersonController : MonoBehaviour
     public bool IsMovingForward()
     {
         // calculate the dot product between movement and forward direction
-        float forwardAngle = Vector3.Dot(moveVector.normalized, transform.forward);
-        return _inputManager.MoveInput.sqrMagnitude >= 0.001f && forwardAngle > 0.86f;
+        float angle = Vector3.Dot(moveVector.normalized, transform.forward);
+        return _inputManager.MoveInput.sqrMagnitude >= 0.001f && angle > 0.86f;
     }
 
     public bool IsMoving()

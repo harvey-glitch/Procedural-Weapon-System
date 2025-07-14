@@ -12,36 +12,25 @@ public class WeaponRecoil : MotionOffset
     [Space(2), Tooltip("How frequently the motion event can occur")]
     public float firerate;
 
-    private bool _isFiring;
     private float _nextFireTime;
 
-    public override Vector3 GetPositionOffset()
+    public override SpringTransform GetOffset()
     {
-        float clampedZ = Mathf.Clamp(kickback, 0f, -maxKickback);
-        return new Vector3(0f, 0f, clampedZ);
+        // clapmed the recoil kickback
+        float zPos = Mathf.Clamp(kickback, 0f, -maxKickback);
+
+        return new SpringTransform(
+            new Vector3(-0f, -0f, zPos),
+            Vector3.zero);
     }
 
-    public override Vector3 GetRotationOffset()
+    public override void UpdateOffset()
     {
-        return Vector3.zero;
-    }
-
-    public override void CustomMotionHandler()
-    {
-        // Only update _isFiring from AttackInput in Standalone mode
-        if (input.Mode == InputMode.Standalone)
-            _isFiring = input.AttackInput;
-
-        if (_isFiring && Time.time >= _nextFireTime)
+        if (input.AttackInput && Time.time >= _nextFireTime)
         {
-            SpringSystem.instance.AddImpulseForce("Recoil", GetPositionOffset(), GetRotationOffset());
+            SpringTransform offset = GetOffset();
+            SpringSystem.instance.AddImpulseForce("Recoil", offset.position, offset.rotation);
             _nextFireTime = Time.time + (1f / firerate);
         }
-    }
-
-    // can be call to manually set the firing value
-    public void SetFiringState(bool newState)
-    {
-        _isFiring = newState;
     }
 }
