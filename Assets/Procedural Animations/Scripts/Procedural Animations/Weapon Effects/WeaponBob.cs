@@ -23,14 +23,13 @@ public class WeaponBob : MotionOffset
     public float multiplier = 2f;
 
     private float _elapsedTime;
-    private float _speedFactor;
 
     public override SpringTransform GetOffset()
     {
-        float xPos = Mathf.Sin(_elapsedTime) * xAmplitude * _speedFactor;
-        float yPos = -Mathf.Abs(Mathf.Sin(_elapsedTime)) * yAmplitude * _speedFactor;
+        float xPos = Mathf.Sin(_elapsedTime) * xAmplitude;
+        float yPos = -Mathf.Abs(Mathf.Sin(_elapsedTime)) * yAmplitude;
 
-        float yRot = Mathf.Cos(_elapsedTime) * yRotation * _speedFactor;
+        float yRot = Mathf.Sin(_elapsedTime * 2f) * yRotation;
         float zRot = 0f;
 
         if (player.IsMoving())
@@ -48,7 +47,7 @@ public class WeaponBob : MotionOffset
 
         return new SpringTransform(
             new Vector3(xPos, yPos, 0f),
-            new Vector3(0f, yRot, zRot));
+            new Vector3(yRot, 0f, zRot));
     }
 
     public override void UpdateOffset()
@@ -59,10 +58,7 @@ public class WeaponBob : MotionOffset
         else
             _elapsedTime = 0f;
 
-
-        _speedFactor = player.IsMovingForward() ? multiplier : 1f;
-
         SpringTransform offset = GetOffset();
-        SpringSystem.instance.AddConstantForce("Bob", offset.position, offset.rotation);
+        SpringSystem.instance.AddConstantForce("Bob", offset.position, offset.rotation, "Recoil");
     }
 }

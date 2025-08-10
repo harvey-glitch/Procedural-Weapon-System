@@ -9,9 +9,6 @@ public class FirstPersonController : MonoBehaviour
     [Tooltip("Normal walking speed of the player.")]
     public float MovementSpeed = 4.0f;
 
-    [Tooltip("Walking speed of the player when sprinting.")]
-    public float SprintingSpeed = 8f;
-
     [Tooltip("How far the player can look up or down.")]
     public float RotationAngleLimit = 65.0f;
 
@@ -87,16 +84,6 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Cache the result to avoid multiple calls and ensure consistent behavior
-        bool movingForward = IsMovingForward();
-
-        // Only update the current speed when the movement direction state changes
-        if (_movedForward != movingForward)
-        {
-            _movedForward = movingForward;
-            _currentSpeed = movingForward ? SprintingSpeed : MovementSpeed;
-        }
-
         Vector2 moveInput = _inputManager.MoveInput;
 
         if (moveInput.sqrMagnitude >= 0.0001f)
@@ -146,13 +133,6 @@ public class FirstPersonController : MonoBehaviour
         }
 
         _characterController.Move(_verticalVelocity * Time.deltaTime);
-    }
-
-    public bool IsMovingForward()
-    {
-        // calculate the dot product between movement and forward direction
-        float angle = Vector3.Dot(moveVector.normalized, transform.forward);
-        return _inputManager.MoveInput.sqrMagnitude >= 0.001f && angle > 0.86f;
     }
 
     public bool IsMoving()

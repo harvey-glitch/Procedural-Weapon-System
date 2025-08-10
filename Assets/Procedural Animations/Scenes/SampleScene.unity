@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1008afbcf622cb489daa2390972c671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mode: 0
+  Mode: 1
   joystickInput: {fileID: 538989624}
   touchZoneInput: {fileID: 704648524}
   MobileInputCanvas: {fileID: 1390299630}
@@ -956,7 +956,7 @@ MonoBehaviour:
   xFrequency: 0.1
   xAmplitude: 0.01
   yFrequency: 1
-  yAmplitude: 0.005
+  yAmplitude: 0.002
 --- !u!1 &813352191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,58 +1153,10 @@ MonoBehaviour:
   input: {fileID: 0}
   frequency: 8
   xAmplitude: 0.01
-  yAmplitude: 0.02
-  yRotation: 2
+  yAmplitude: 0.015
+  yRotation: -1.5
   titlAmount: 5
   multiplier: 2
---- !u!1 &1187285746
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1187285747}
-  - component: {fileID: 1187285748}
-  m_Layer: 0
-  m_Name: Weapon Sprint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1187285747
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1187285746}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1998377707}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1187285748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1187285746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53366aee0a933e6439438c9bb5080340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  input: {fileID: 0}
-  position: {x: 0, y: -0.01, z: 0}
-  rotation: {x: 10, y: 0, z: 0}
 --- !u!4 &1351065822 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1856478557988811146, guid: 466621a4836aa504c87c15d88722d465, type: 3}
@@ -1564,7 +1516,6 @@ MonoBehaviour:
   - {fileID: 1181203973}
   - {fileID: 776137447}
   - {fileID: 546311891}
-  - {fileID: 1187285748}
   - {fileID: 682101940}
 --- !u!4 &1998377707
 Transform:
@@ -1582,7 +1533,6 @@ Transform:
   - {fileID: 1181203972}
   - {fileID: 776137446}
   - {fileID: 546311890}
-  - {fileID: 1187285747}
   - {fileID: 682101939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4565,7 +4515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 4
-  SprintingSpeed: 6
   RotationAngleLimit: 65
   RotationSpeed: 3
   GravityMultiplier: 2
@@ -6584,7 +6533,6 @@ MonoBehaviour:
       damping: 0.5
       weight: 1
       target: {x: 0, y: 0, z: 0}
-    IncludeRotation: 1
   - SpringID: Idle
     PositionSpring:
       stiffness: 100
@@ -6596,7 +6544,6 @@ MonoBehaviour:
       damping: 0.5
       weight: 1
       target: {x: 0, y: 0, z: 0}
-    IncludeRotation: 0
   - SpringID: Recoil
     PositionSpring:
       stiffness: 200
@@ -6608,7 +6555,6 @@ MonoBehaviour:
       damping: 0.5
       weight: 1
       target: {x: 0, y: 0, z: 0}
-    IncludeRotation: 0
   - SpringID: Sway
     PositionSpring:
       stiffness: 100
@@ -6620,19 +6566,6 @@ MonoBehaviour:
       damping: 0.5
       weight: 1
       target: {x: 0, y: 0, z: 0}
-    IncludeRotation: 0
-  - SpringID: Sprint
-    PositionSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
-      target: {x: 0, y: 0, z: 0}
-    RotationSpring:
-      stiffness: 100
-      damping: 0.5
-      weight: 1
-      target: {x: 0, y: 0, z: 0}
-    IncludeRotation: 1
   targetTransform: {fileID: 1029294199869084083}
 --- !u!1 &5974878733990112589
 GameObject:

@@ -26,8 +26,9 @@ public abstract class MotionOffset : MonoBehaviour
         input ??= FindFirstObjectByType<InputManager>();
     }
 
-    // abstract method to be implemented by deriving class
+    // method with transform type return
     public abstract SpringTransform GetOffset();
 
+    // abstract method to be implemented by deriving class
     public abstract void UpdateOffset();
 }

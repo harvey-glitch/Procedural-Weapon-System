@@ -42,6 +42,6 @@ public class WeaponIdle : MotionOffset
         }
 
         SpringTransform offset = GetOffset();
-        SpringSystem.instance.AddConstantForce("Idle", offset.position, offset.rotation);
+        SpringSystem.instance.AddConstantForce("Idle", offset.position, offset.rotation, "Recoil");
     }
 }

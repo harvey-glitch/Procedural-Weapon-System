@@ -12,16 +12,13 @@ public class Springs
 
     [Space(5)]
     public SpringVector3 RotationSpring = new SpringVector3();
-
-    [Space(5), Tooltip("Flag to check where this spring should include rotation or not")]
-    public bool IncludeRotation = false;
 }
 
 public class SpringSystem : MonoBehaviour
 {
     public static SpringSystem instance;
 
-    [Header("List of Springs Vectors")]
+    [Header("Spring Configuration")]
     public List<Springs> springsList = new();
 
     private Dictionary<string, Springs> springMap = new();
@@ -82,12 +79,8 @@ public class SpringSystem : MonoBehaviour
             spring.PositionSpring.Update(spring.PositionSpring.target, elapsedTime);
             totalPosition += spring.PositionSpring.value * spring.PositionSpring.weight;
 
-            // only apply rotation for springs with includeRotation flag set to true
-            if (spring.IncludeRotation)
-            {
-                spring.RotationSpring.Update(spring.RotationSpring.target, elapsedTime);
-                totalRotation += spring.RotationSpring.value * spring.RotationSpring.weight;
-            }
+            spring.RotationSpring.Update(spring.RotationSpring.target, elapsedTime);
+            totalRotation += spring.RotationSpring.value * spring.RotationSpring.weight;
         }
 
         if (targetTransform != null)
@@ -98,10 +91,13 @@ public class SpringSystem : MonoBehaviour
         }
     }
 
-    // method use to add constant / continues force on the spring
-    public void AddConstantForce(string id, Vector3 posTarget, Vector3 rotTarget)
+    #region Utility Methods
+    public void AddConstantForce(string springId, Vector3 posTarget, Vector3 rotTarget, params string[] blockingIds)
     {
-        if (springMap.TryGetValue(id, out var spring))
+        float weight = IsAnyMotionActive(blockingIds) ? 0.3f : 1f;
+        SetSpringWeight(springId, weight);
+
+        if (springMap.TryGetValue(springId, out var spring))
         {
             spring.PositionSpring.target = posTarget;
             spring.RotationSpring.target = rotTarget;
@@ -109,32 +105,54 @@ public class SpringSystem : MonoBehaviour
     }
 
     // method use to apply an additive impulse force to the spring. Useful for stacking effects.
-    public void AddImpulseForce(string id, Vector3 posForce, Vector3 rotForce)
+    public void AddImpulseForce(string springId, Vector3 posForce, Vector3 rotForce, params string[] blockingIds)
     {
-        if (springMap.TryGetValue(id, out var spring))
+        if (IsAnyMotionActive(blockingIds))
+            return;
+
+        if (springMap.TryGetValue(springId, out var spring))
         {
             spring.PositionSpring.AddImpulseForce(posForce);
             spring.RotationSpring.AddImpulseForce(rotForce);
         }
     }
 
-    // helper method to get specific spring vector in the dictionary
-    public SpringVector3 GetPositionSpring(string id) =>
-        springMap.TryGetValue(id, out var spring) ? spring.PositionSpring : null;
-
-    public SpringVector3 GetRotationSpring(string id) =>
-        springMap.TryGetValue(id, out var spring) ? spring.RotationSpring : null;
+    // helper method to stop specific motion when one or more motion is current playing
+    public bool IsAnyMotionActive(params string[] springIds)
+    {
+        foreach (var activeSprings in springIds)
+        {
+            if (springMap.TryGetValue(activeSprings, out var blockingSprings))
+            {
+                // if this motion is active, return true
+                if (!blockingSprings.PositionSpring.IsAtRest())
+                    return true;
+            }
+        }
+        // else return false
+        return false;
+    }
 
     // helper method to set the weight of specific spring position or rotation
-    public void SetSpringWeight(string id, float positionWeight, float rotationWeight)
+    public void SetSpringWeight(string id, float weight)
     {
         if (springMap.TryGetValue(id, out var spring))
         {
             if (spring.PositionSpring != null)
-                spring.PositionSpring.weight = positionWeight;
+            {
+                float currentWeight = spring.PositionSpring.weight;
+                currentWeight = Mathf.Lerp(currentWeight, weight, Time.deltaTime * 5f);
+                spring.PositionSpring.weight = currentWeight;
+            }
 
             if (spring.RotationSpring != null)
-                spring.RotationSpring.weight = rotationWeight;
+            {
+                float currentWeight = spring.RotationSpring.weight;
+                currentWeight = Mathf.Lerp(currentWeight, weight, Time.deltaTime * 5f);
+                spring.RotationSpring.weight = currentWeight;
+            }
         }
     }
+
+    #endregion
 }
